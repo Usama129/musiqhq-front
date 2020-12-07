@@ -1,0 +1,35 @@
+
+.mic-circle-passive{
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 180px;
+    height: 180px;
+    transition-duration: 0.25s;
+    border-radius: 50%;
+    background: crimson;
+}
+
+.mic-circle-active{
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 200px;
+    transition-duration: 1s;
+    height: 200px;
+    border-radius: 50%;
+    background: turquoise;
+}
+
+.mic-icon{
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.status-message {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translate(-50%);
+}

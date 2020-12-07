@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font-family: 'Quicksand', sans-serif;
 }
 
 .App-logo {
@@ -14,7 +15,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: turquoise;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,4 +36,12 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.main-box{
+  position:relative;
+  width: 350px;
+  height: 500px;
+  background-color: #282c34;
+  border-radius: 20px;
 }
