@@ -11,4 +11,14 @@
     margin: -225px 0 0 -165px;
 }
 
+.backBtnContainer {
+    height: 100%;
+    position: relative;
+}
+
+.backBtn {
+    position:absolute;
+    bottom:0;
+    left:0;
+}
 

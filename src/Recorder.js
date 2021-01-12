@@ -3,7 +3,7 @@ import './css/Recorder.css'
 import { BsMic } from 'react-icons/bs';
 import { IconContext } from "react-icons";
 import axios from "axios";
-
+import Radium, {StyleRoot} from "radium";
 
 class Recorder extends Component {
     constructor(props) {
@@ -12,6 +12,7 @@ class Recorder extends Component {
         this.state = {
             recording: false,
             recordStartTime: null,
+            recordingID: null,
             recognized: false,
             statusMessage: ""
         }
@@ -31,9 +32,11 @@ class Recorder extends Component {
 
     startRecording = () => {
         let context = this
-
+        let id = this.makeID(9)
+        this.setState({recordingID: id})
         navigator.mediaDevices.getUserMedia({audio:true}).then(stream => {
             this.setState({statusMessage:"Listening"})
+            this.stream = stream
             context.recorder = new MediaRecorder(stream)
             context.recorder.start(1500)
             const audioChunks = []
@@ -47,10 +50,11 @@ class Recorder extends Component {
             };
 
             setTimeout(() => {
-                if (this.recorder.state === "recording")
+                if (this.recorder.state === "recording" && this.state.recordingID === id) {
                     this.stopRecording()
-                if (!this.state.recognized)
-                    this.setState({statusMessage: "Try Again"})
+                    if (!this.state.recognized)
+                        this.setState({statusMessage: "Try Again"})
+                }
             }, 10000);
         })
 /*
@@ -61,7 +65,7 @@ class Recorder extends Component {
     }
 
     stopRecording = () => {
-        if (this.recorder.state === "inactive")
+        if (this.recorder?.state === "inactive")
             return
            /* this.recorder
             .stop()
@@ -79,7 +83,8 @@ class Recorder extends Component {
             console.log(e);
         });*/
         this.recorder.stop()
-        this.setState({recording: false})
+        this.stream.getTracks().forEach( track => track.stop() )
+        this.setState({recording: false, statusMessage: "", recordingID: null})
     }
 
     recognize = (audio) => {
@@ -102,7 +107,7 @@ class Recorder extends Component {
                     console.log("null or error")
                 }
                 else{
-                    console.log(response.data.result)
+                    //console.log(response.data.result)
                     context.setState({recognized: true})
                     context.stopRecording()
                     context.props.proceed(response.data.result)
@@ -113,20 +118,33 @@ class Recorder extends Component {
             });
     }
 
+    makeID = (length) => {
+        var result           = '';
+        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+
     render(){
         return(
-            <div>
-                <div className={"mic-circle" + (this.state.recording ? '-active' : '-passive')}
-                     onMouseDown={this.handleClick} onMouseUp={this.handleClick}>
-                    <IconContext.Provider value={{ size: "3em", className:"mic-icon" }}>
-                        <div>
-                            <BsMic />
-                        </div>
-                    </IconContext.Provider>
+            <StyleRoot style={{height: "100%"}}>
+                <div style={this.props.anim.pulse} className="recorder-container">
+                    <div className={"mic-circle" + (this.state.recording ? '-active' : '-passive')}
+                         onMouseDown={this.handleClick} onMouseUp={this.handleClick}>
+                        <IconContext.Provider value={{ size: "3em", className:"mic-icon" }}>
+                            <div>
+                                <BsMic />
+                            </div>
+                        </IconContext.Provider>
+                    </div>
+                    { (!this.state.recognized) ?
+                        <h2 className={"status-message"}>{this.state.statusMessage}</h2> : null}
+
                 </div>
-                { (!this.state.recognized) ?
-                    <h2 className={"status-message"}>{this.state.statusMessage}</h2> : null}
-            </div>
+            </StyleRoot>
         )
     }
 }
