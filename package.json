@@ -1,7 +1,6 @@
 {
   "name": "musiqhq",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
@@ -42,6 +41,5 @@
     ]
   },
   "devDependencies": {
-    "mic-recorder-to-mp3": "^2.2.2"
   }
 }

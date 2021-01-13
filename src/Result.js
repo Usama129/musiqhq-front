@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import './css/Result.css'
-import Radium, {StyleRoot} from 'radium';
+import {StyleRoot} from 'radium';
 import {ArrowBackRounded} from "@material-ui/icons";
 import {IconButton} from "@material-ui/core";
 

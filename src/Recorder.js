@@ -3,7 +3,7 @@ import './css/Recorder.css'
 import { BsMic } from 'react-icons/bs';
 import { IconContext } from "react-icons";
 import axios from "axios";
-import Radium, {StyleRoot} from "radium";
+import {StyleRoot} from "radium";
 
 class Recorder extends Component {
     constructor(props) {
